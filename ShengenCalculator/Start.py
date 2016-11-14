@@ -84,7 +84,7 @@ def is_across(new_visit, visits):
             return visit
     return None
 
-visits = [[1, 10], [61, 90], [101, 140], [141, 160], [171, 180]]
+visits = [[1, 10], [61, 70], [101, 140], [141, 160], [171, 180], [300, 350]]
 
 # ---------------------- Функции по работе с меню -------------------------------------------
 
@@ -119,6 +119,7 @@ def add_new_visit():
     else:
         visits_temp = visits.copy()
         visits_temp.append(new_visit)
+        visits_temp.sort(key=lambda v: v[1])
         if print_residence_limit_violation(visits_temp, new_visit):  # если ошибки нет то добавим новый визит
             visits.append(new_visit)
         visits.sort(key=lambda v: v[1])  # сортируем список визитов
@@ -145,8 +146,14 @@ def get_count_free_days():
     """
     print('Введите дату начала визита:')
     date_in_future = int(input())
-    print("Количество доступный дней для пребывания в ЕС")
-    print_days_future_visit(visits, date_in_future)
+    date_valid = True
+    for visit in visits:
+        if date_in_future < visit[1]:
+            print("Дата должа быть в будущем")
+            date_valid = False
+    if date_valid:
+        print("Количество доступный дней для пребывания в ЕС")
+        print_days_future_visit(visits, date_in_future)
     exit_to_main_menu()
 
 def show_visits():
@@ -157,7 +164,7 @@ def show_visits():
     print("Все визиты:")
     days_for_visits = get_days_for_visits(visits)
     for days_for_visit, visit in zip(days_for_visits, visits):
-        print("Дата начала: %d, дата окончания: %d, пребывание дней в ЕС %d" % (visit[0], visit[1], days_for_visit))
+        print("Дата начала: %d, дата окончания: %d, дней в визите %d" % (visit[0], visit[1], visit_length(visit)))
     exit_to_main_menu()
 
 def select_menu(selected_menu):
