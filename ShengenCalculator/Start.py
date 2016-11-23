@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import csv
 
 residence_limit = 90  # 45, 60
 schengen_constraint = 180
+visits = [[1, 10], [61, 70], [101, 140], [141, 160], [171, 180], [300, 350]]  # стандартный список визитов
 
 # ------------- Функции работы с витами --------------------
 
@@ -73,6 +75,7 @@ def print_residence_limit_violation(visits, new_visit):
             return False
     return True
 
+
 def is_across(new_visit, visits):
     """
     Определяет пересечение нового визита со старыми визитами
@@ -84,9 +87,40 @@ def is_across(new_visit, visits):
             return visit
     return None
 
-visits = [[1, 10], [61, 70], [101, 140], [141, 160], [171, 180], [300, 350]]
+
+def write_visits(visits, name_file):
+    """
+    Записись визитов в файл
+    :param visits:
+    :return:
+    """
+    with open(name_file, 'w', newline='', encoding="utf-8") as f:
+        writer = csv.writer(f, delimiter=';')
+        for visit in visits:
+            # f.write("%s %s" % (str(begin), str(end)))
+            writer.writerow(visit)
+
+
+def load_visits(name_file):
+    """
+    Загрузка визитов из файла
+    :param name_file:
+    :return:
+    """
+    vitits_load = []
+    try:
+        with open(name_file, "r", newline='', encoding="utf-8") as f:
+            reader = csv.reader(f, delimiter=';')
+            for begin, end in reader:
+                vitits_load.append([int(begin), int(end)])
+    except Exception as e:
+        # Если не удалось прочитать по какой-то причине, то загрузим стандартный список визитов
+        print("Возникла ошибка чтения файла, будет загружен стандартный список визитов. Текст ошибки: %s" % e)
+        vitits_load = visits
+    return vitits_load
 
 # ---------------------- Функции по работе с меню -------------------------------------------
+
 
 def exit_to_main_menu():
     """
@@ -94,6 +128,7 @@ def exit_to_main_menu():
     :return:
     """
     input("Нажмите любую клавишу, чтобы вернуться в меню ...")
+
 
 def visit_input():
     """
@@ -105,6 +140,7 @@ def visit_input():
     print('Дата окончания:')
     end = int(input())
     return start, end
+
 
 def add_new_visit():
     """
@@ -125,6 +161,7 @@ def add_new_visit():
         visits.sort(key=lambda v: v[1])  # сортируем список визитов
     exit_to_main_menu()
 
+
 def delete_visit():
     """
     Удаление визита
@@ -138,6 +175,7 @@ def delete_visit():
             print("Удалено")
             break
     exit_to_main_menu()
+
 
 def get_count_free_days():
     """
@@ -156,6 +194,7 @@ def get_count_free_days():
         print_days_future_visit(visits, date_in_future)
     exit_to_main_menu()
 
+
 def show_visits():
     """
     Печатаем все доступные визиты
@@ -167,6 +206,12 @@ def show_visits():
         print("Дата начала: %d, дата окончания: %d, дней в визите %d" % (visit[0], visit[1], visit_length(visit)))
     exit_to_main_menu()
 
+
+def exit_programm():
+    write_visits(visits, name_file='MyVisits.csv')
+    exit()
+
+
 def select_menu(selected_menu):
     """
     Действия выбранные пользователем
@@ -177,8 +222,12 @@ def select_menu(selected_menu):
             'v': add_new_visit,
             'r': delete_visit,
             'p': get_count_free_days,
-            'e': exit
+            'e': exit_programm
            }.get(selected_menu)
+
+# Загружаем визиты из файла
+
+visits = load_visits("MyVisits.csv")
 
 # ------------------ Меню программы --------------------------------------------------
 while True:
