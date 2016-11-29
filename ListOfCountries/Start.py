@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import xml
 import json
 from pprint import pprint
+import xml.etree.ElementTree as ET
 
 # Cловарь содержащий сведения о странах
 countries = {
@@ -47,10 +47,20 @@ with open('list_of_countries.json', 'r', encoding="UTF-8") as f:
 pprint(list_of_countries)  # красиво напечатеам список стран
 
 # -------------------------- XML ----------------------------------------------------
-#with open('list_of_countries.json', 'w') as f:
-
+# Создадим XML документ
+root = ET.Element('countries')
+for country, properties in countries.items():
+    country_element = ET.SubElement(root, 'country')
+    country_element.text = country
+    for property_name, property_value in properties.items():
+        c = ET.SubElement(country_element, property_name)
+        c.text = str(property_value)
 # Сохраним список стран в файл XML
+with open('list_of_countries.xml', 'w') as f:
+    f.write("<?xml version='1.0'?>\n")  # заголовок
+    f.write(str(ET.dump(root)))
 
+#pprint(list_of_countries)  # красиво напечатеам список стран
 
 print("_"*60)
 
