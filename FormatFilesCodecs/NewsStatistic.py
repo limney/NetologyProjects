@@ -3,10 +3,9 @@
 
 import codecs
 import json
-import xml
 import os
-import os.path as path
 import chardet  # импортируем модуль для авто-определения кодировки текстового файла
+import xml.etree.ElementTree as ET
 
 
 def code_detecter(path_to_file_text):
@@ -74,30 +73,27 @@ for file in os.listdir("."):
                                 words[new_word] += 1
     except:
         print("Проблемма с обработкой файла с именем: %s" % file)
+print("Загружено")
 
 # Загружаем новости из файлов в формате XML
 print("Загружаем слова из файлов (формат XML), ждите ... ")
 for file in os.listdir("."):
-    try:
-        if file.endswith(".xml"):
+    if file.endswith(".xml"):
+        try:
             # print(code_detecter(file))
             with codecs.open(file, encoding=code_detecter(file)) as f:
-                rss_news = json.load(f)
-                for news in rss_news['rss']['channel']['item']:
-                    if isinstance(news['description'], str):
-                        input_text = news['description']
-                    else:
-                        input_text = news['description']['__cdata']
-                    for new_word in tokenize(input_text):
+                content_file = "".join([line for line in f.readlines()])
+                rss_news_tree_root = ET.fromstring(content_file)
+                for text_description in rss_news_tree_root.findall("./channel/item/description"):
+                    for new_word in tokenize(text_description.text):
                         if len(new_word) > max_length:
                             if words.get(new_word) is None:
                                 words[new_word] = 0
                             else:
                                 words[new_word] += 1
-    except:
-        print("Проблемма с обработкой файла с именем: %s" % file)
-
-
+        except:
+            print("Проблемма с обработкой файла с именем: %s" % file)
+print("Загружено")
 
 # Выводим TOP слов
 print('Список из %d самых популярный слов:' % count_top)
