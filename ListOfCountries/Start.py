@@ -72,7 +72,7 @@ if select == 1:
         # pprint(countries)
 elif select == 2:
     countries = {}
-    # ---------- JSON (чтение) ---------------------------
+    # ---------- XML (чтение) ---------------------------
     convertor = {'cost_day': int, 'schengen': bool, 'average_temperature': int, 'sea': bool, 'currency_rate': float}
     tree = ET.parse('list_of_countries.xml')
     root = tree.getroot()

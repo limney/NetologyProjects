@@ -2,6 +2,29 @@
 # -*- coding: utf-8 -*-
 from collections import Counter
 
+import numpy
+
+nums = list(map(float, input().split()))
+
+nums.sort(key=lambda x: x**2, reverse=True)
+print(nums)
+
+print(numpy.array(nums, float))
+
+
+
+exit()
+
+
+
+
+
+
+
+
+
+
+
 
 myList = [1,1,2,3,4,5,3,2,3,4,2,1,2,3]
 print(Counter(myList))
