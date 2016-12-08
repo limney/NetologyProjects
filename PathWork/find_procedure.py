@@ -47,6 +47,7 @@ import glob
 import os
 from ClassSearcher import MySearcher
 import ClassSearcher
+import time
 
 migrations = 'Migrations'
 migrations = 'Advanced Migrations'
@@ -60,11 +61,15 @@ while True:
     pattern_text = input("Введите исковую строку: ")
     if pattern_text == "":
         print("Строка не должна быть пустой!")
+        break
         continue
+    begin_time = time.time()
     files = [file for file in files if searcher.is_containts(file, pattern_text)]
+    end_time = time.time()
     for file in files:
         print(file)
     print("Всего файлов: %d" % len(files))
+    print("Время поиска %f сек" % (end_time - begin_time))
 
 
 # Тут многопоточная программа реализующая многопоточность (на случай если файлов очень много, и в системе несколько логических ядер)
@@ -83,8 +88,11 @@ while True:
     if pattern_text == "":
         print("Строка не должна быть пустой!")
         continue
+    begin_time = time.time()
     files = searcher.fast_search(files, pattern_text)
+    end_time = time.time()
     for file in files:
         print(file)
     print("Всего файлов: %d" % len(files))
+    print("Время поиска %f сек" % (end_time - begin_time))
 
