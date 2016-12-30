@@ -2,30 +2,11 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 from urllib.parse import urlencode, urlparse, urljoin
 import requests
 
-"""
-Приложение: NetologyProject
-ID: 1703177ac368422cbe14d1901a44b1b2
-Пароль: 8aa517215ac84f8f9d45c72d7430cdfa
-Callback URL: https://oauth.yandex.ru/verification_code
-"""
-authorize_url = "https://oauth.yandex.ru/authorize"
-app_id = "1703177ac368422cbe14d1901a44b1b2"
-
-auth_data = {
-    'response_type': 'token',
-    'client_id': app_id
-}
-
-print('?'.join((authorize_url, urlencode(auth_data))))
-
-counter_id = 41885614
-
-my_token = "AQAAAAACjA_HAAPysuizpgddT0VxmnA4eNZ6tNM"
 
 
 class YandexMetricClient:
     """
-    Абстрактный класс клиентя Яндекс метрики
+    Абстрактный класс клиентя Яндекс метрики (Базовый класс)
     """
     __metaclass__ = ABCMeta
 
@@ -52,21 +33,21 @@ class YandexMetricClient:
 
 
 class YandexMetricStat(YandexMetricClient):
+    """
+    Подкласс для работы с API отчётов
+    """
     _METRIC_STAT_URL = "https://api-metrika.yandex.ru/stat/v1/"
-    _METRIC_MANAGMENT_URL = "https://api-metrika.yandex.ru/managment/v1/"
 
     def __init__(self, token):
         super(YandexMetricStat, self).__init__(token)
 
-    def counter_list(self):
-        url = urljoin(self._METRIC_MANAGMENT_URL, 'counter')
-        headers = self.get_header()
-        response = requests.get(url, headers=headers)
-        counter_list = [c['id'] for c in response.json()['counters']]
-        return counter_list
-
     def get_visits_count(self, counter_id):
-        url = urljoin(self._METRIC_MANAGMENT_URL, 'data')
+        """
+        Визиты
+        :param counter_id:
+        :return:
+        """
+        url = urljoin(self._METRIC_STAT_URL, 'data')
         headers = self.get_header()
         params = {
             'id': counter_id,
@@ -76,6 +57,59 @@ class YandexMetricStat(YandexMetricClient):
         visits_count = response.json()['data'][0]['metrics'][0]
         return visits_count
 
+    def get_page_views(self, counter_id):
+        """
+        Просмотры
+        :param counter_id:
+        :return:
+        """
+        url = urljoin(self._METRIC_STAT_URL, 'data')
+        headers = self.get_header()
+        params = {
+            'id': counter_id,
+            'metrics': 'ym:s:pageviews'
+        }
+        response = requests.get(url, params, headers=headers)
+        visits_count = response.json()['data'][0]['metrics'][0]
+        return visits_count
+
+    def get_visitors(self, counter_id):
+        """
+        Посетители
+        :param counter_id:
+        :return:
+        """
+        url = urljoin(self._METRIC_STAT_URL, 'data')
+        headers = self.get_header()
+        params = {
+            'id': counter_id,
+            'metrics': 'ym:s:users'
+        }
+        response = requests.get(url, params, headers=headers)
+        visits_count = response.json()['data'][0]['metrics'][0]
+        return visits_count
+
+
+class YandexMetricManagement(YandexMetricClient):
+    """
+    Подкласс для работы с API управления
+    """
+    _METRIC_MANAGEMENT_URL = "https://api-metrika.yandex.ru/management/v1/"
+
+    def __init__(self, token):
+        super(YandexMetricManagement, self).__init__(token)
+
+    def counter_list(self):
+        url = urljoin(self._METRIC_MANAGEMENT_URL, 'counters')
+        headers = self.get_header()
+        response = requests.get(url, headers=headers)
+        counter_list = [c['id'] for c in response.json()['counters']]
+        return counter_list
+
+
 if __name__ == "__main__":
-    metrika = YandexMetricStat(my_token)
+
+    metrika = YandexMetricStat("")
     print(metrika.get_visits_count(41885614))
+
+
