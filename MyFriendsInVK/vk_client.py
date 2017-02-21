@@ -41,9 +41,9 @@ class ClientVK:
         token_url = "?".join((self.__AUTHORIZE, urlencode(params)))
 
         # token_url_response = requests.get(token_url)
-        # print(token_url)
+        #print(token_url)
 
-        token_url_response = "https://oauth.vk.com/blank.html#access_token=c93dfe19a243b84ead51d261b067b971e3e4fa7f599df7fcc85d62a57f21e1c2a1ffd4c8371d22dece23d&expires_in=86400&user_id=83492044"
+        token_url_response = "https://oauth.vk.com/blank.html#access_token=be60be246d6aee24a158713a897320d375c449ff3160742eea7de68f14795b641849c0483aa8564791168&expires_in=86400&user_id=83492044"
 
         o = urlparse(token_url_response)
         fragment = dict((i.split("=") for i in o.fragment.split("&")))

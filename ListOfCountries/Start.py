@@ -36,11 +36,12 @@ countries["USA"] = {'sea': True, 'schengen': False, 'average_temperature': 20, '
 countries["Poland"] = {'sea': False, 'schengen': True, 'average_temperature': 15, 'currency_rate': 1.4, 'cost_day': 140}
 countries["Spain"] = {'sea': True, 'schengen': True, 'average_temperature': 25, 'currency_rate': 2, 'cost_day': 220}
 countries["China"] = {'sea': True, 'schengen': False, 'average_temperature': 10, 'currency_rate': 1.1, 'cost_day': 110}
+countries["Голландия"] = {'sea': True, 'schengen': False, 'average_temperature': 10, 'currency_rate': 1.1, 'cost_day': 110}
 
 # -------------------------- JSON (запись) ---------------------------------------------------
 # Сохраним список стран в файл JSON
 with open('list_of_countries.json', 'w', encoding="UTF-8") as f:
-    json.dump(countries, f)
+    json.dump(countries, f, ensure_ascii=False)
 # Прочитаем список стар из файла в формате JSON
 with open('list_of_countries.json', 'r', encoding="UTF-8") as f:
     list_of_countries = json.load(f)
