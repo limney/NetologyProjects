@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import requests
+import urllib
 from urllib.parse import urlencode, urlparse
 import time
 from datetime import datetime
+import webbrowser
+
 ID_USER_GARIKHARLAMOV = 80491907
 CURRENT_YEAR = datetime.now().year
 
@@ -44,11 +47,13 @@ class ClientVK:
             "scope": "friends,status",
             "v": self.__VERSION
         }
-        # token_url = "?".join((self.__AUTHORIZE, urlencode(params)))
+        token_url = "?".join((self.__AUTHORIZE, urlencode(params)))
         # token_url_response = requests.get(token_url)
-        # print(token_url)
+        response = webbrowser.open(token_url)
+        #print(token_url)
 
-        token_url_response = "https://oauth.vk.com/blank.html#access_token=428fb82ca8795c8fa0018f28aef00e30080786458ccbf812456f2262b55597f933484339e3f100a9c078f&expires_in=86400&user_id=83492044"
+        token_url_response = input("Скопируйте сюда пожалуйста url откртый из вашего открытого браузера")
+        #token_url_response = "https://oauth.vk.com/blank.html#access_token=428fb82ca8795c8fa0018f28aef00e30080786458ccbf812456f2262b55597f933484339e3f100a9c078f&expires_in=86400&user_id=83492044"
 
         o = urlparse(token_url_response)
         fragment = dict((i.split("=") for i in o.fragment.split("&")))
