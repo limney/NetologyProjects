@@ -13738,3 +13738,7 @@
 Ошибка! user_id=4700 Текст ошибки: time data '3.12' does not match format '%d.%m.%Y'
 Ошибка! user_id=4767 Текст ошибки: 'bdate'
 Ошибка! user_id=4819 Текст ошибки: 'bdate'
+Ошибка! id_user=3420 Текст ошибки: 'response'
+Ошибка! id_user=30942 Текст ошибки: 'response'
+Ошибка! id_user=63521 Текст ошибки: 'response'
+Ошибка! id_user=69835 Текст ошибки: 'response'

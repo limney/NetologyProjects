@@ -48,6 +48,7 @@ if __name__ == "__main__":
     head_lines.append("Введите id пользоателя в VK.com:\n>" + str(user_id))
 
     vk = ClientVK(app_id=MY_APP_ID)
+    vk.get_access_token()
 
     friends = []
     followers = []

@@ -38,6 +38,7 @@ class ClientVK:
         self.__AUTHORIZE = "https://oauth.vk.com/authorize"
         self.__VERSION = "5.60"
         self.__app_id = app_id
+        self.__access_token = None
 
     def get_access_token(self):
         params = {
@@ -48,21 +49,16 @@ class ClientVK:
             "v": self.__VERSION
         }
         token_url = "?".join((self.__AUTHORIZE, urlencode(params)))
-        # token_url_response = requests.get(token_url)
-        response = webbrowser.open(token_url)
-        #print(token_url)
-
-        token_url_response = input("Скопируйте сюда пожалуйста url откртый из вашего открытого браузера")
-        #token_url_response = "https://oauth.vk.com/blank.html#access_token=428fb82ca8795c8fa0018f28aef00e30080786458ccbf812456f2262b55597f933484339e3f100a9c078f&expires_in=86400&user_id=83492044"
-
+        webbrowser.open(token_url)  # запрос у пользователя url с токеном доступа
+        print("Скопируйте сюда пожалуйста url открытый из вашего открытого браузера:")
+        token_url_response = input(">")
         o = urlparse(token_url_response)
         fragment = dict((i.split("=") for i in o.fragment.split("&")))
-        return fragment["access_token"]
+        self.__access_token = fragment["access_token"]
 
     def get_friends(self, id_user, friends, groups_friends):
-        access_token = self.get_access_token()
         params = {
-            "access_token": access_token,
+            "access_token": self.__access_token,
             "v": self.__VERSION,
             "user_id": id_user
         }
@@ -79,9 +75,8 @@ class ClientVK:
         return my_friends
 
     def get_followers(self, id_user, followers, groups_followers):
-        access_token = self.get_access_token()
         params = {
-            "access_token": access_token,
+            "access_token": self.__access_token,
             "v": self.__VERSION,
             "user_id": id_user
         }
@@ -107,9 +102,8 @@ class ClientVK:
         :param id_user:
         :return:
         """
-        access_token = self.get_access_token()
         params = {
-            "access_token": access_token,
+            "access_token": self.__access_token,
             "v": self.__VERSION,
             "user_id": id_user
         }
