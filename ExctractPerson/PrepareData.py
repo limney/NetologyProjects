@@ -15,8 +15,7 @@ if __name__ == "__main__":
     # Загружаем TOP 100 групп подписчиков у пользователя (Гарика Харламова)
     with open('top100.json', 'r', encoding="UTF-8") as file:
         groups_raw = json.load(file)
-        for group in groups_raw[:TOP]:
-            top5.append(group)
+        top5 = groups_raw[:TOP]
 
     # Сбор людей в каждой из групп
     for group in top5:
