@@ -53,7 +53,7 @@ if __name__ == "__main__":
     followers = []
     groups_followers_friends = []
 
-    threads_friends = threading.Thread(target=vk.get_friends, args=(ID_USER_GARIKHARLAMOV, friends, groups_followers_friends))
+    threads_friends = threading.Thread(target=vk.get_friends, args=(user_id, friends, groups_followers_friends))
     threads_friends.start()
 
     # Сбор друзей и групп пользователя
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     head_lines.append("Нашли {0} друзей и {1} групп".format(len(friends), len(groups_followers_friends)))
 
-    threads_followers = threading.Thread(target=vk.get_followers, args=(ID_USER_GARIKHARLAMOV, followers, groups_followers_friends))
+    threads_followers = threading.Thread(target=vk.get_followers, args=(user_id, followers, groups_followers_friends))
     threads_followers.start()
 
     # Сбор подписчиков и групп пользователя (ограничение до 100 подписчиков)

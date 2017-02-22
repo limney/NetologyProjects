@@ -2,13 +2,9 @@
 # -*- coding: utf-8 -*-
 import json
 from ClientVK import *
-import os
-import time
-import threading
 
 MY_APP_ID = 5786550
 TOP = 6  # выбираем первые 5 групп из списка top100
-
 
 
 if __name__ == "__main__":

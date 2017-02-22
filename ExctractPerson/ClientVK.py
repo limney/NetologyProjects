@@ -6,7 +6,7 @@ from urllib.parse import urlencode, urlparse
 import time
 from datetime import datetime
 ID_USER_GARIKHARLAMOV = 80491907
-CURRENT_YEAR = 2017
+CURRENT_YEAR = datetime.now().year
 
 class UserVK:
     """
@@ -154,36 +154,4 @@ class ClientVK:
             log.write(line + "\n")
             log.flush()
 
-
-if __name__ == "__main__":
-
-    vk = ClientVK(app_id=5786550)
-
-    # user_friends = vk.get_friends(ID_USER_GARIKHARLAMOV, 0)
-
-    # user_groups = vk.get_groups(ID_USER_GARIKHARLAMOV)
-
-    groups_info = []
-    groups = vk.get_members(1)
-
-    #user_followers = vk.get_followers(ID_USER_GARIKHARLAMOV)
-
-    # for my_friend in my_friends:
-    #     print(my_friend)
-
-    # # Сохраним объект my_friends (JSON сериализация)
-    # with open('my_friends.pickle', 'wb') as f:
-    #     pickle.dump(my_friends, f)
-    #
-    # # Читаем объект my_friends (JSON сериализация)
-    # with open('my_friends.pickle', 'rb') as f:
-    #     my_friends_saved = pickle.load(f)
-
-    # print("----------- Друзья --------------------")
-    # for user_friend in user_friends:
-    #     print(user_friend)
-
-    # print("---------- Подписчики -----------------")
-    # for user_follower in user_followers:
-    #     print(user_follower)
 
