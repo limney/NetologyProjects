@@ -78,14 +78,15 @@ if __name__ == "__main__":
 
     # Сохраним все группы друзей и подписчиков
     with open('groups.json', 'w', encoding="utf-8") as json_file:
-        json.dump(groups_followers_friends, json_file, ensure_ascii=False)
+        groups_followers_friends_list = list(groups_followers_friends.values())
+        json.dump(groups_followers_friends_list, json_file, ensure_ascii=False)
     report = "Сохранили список групп в которых состоят подписчики и друзья нашего пользователя в файл groups.json, " \
              "всего записано групп: {0}".format(len(groups_followers_friends))
     print(report)
     head_lines.append(report)
 
     # Сохраним 100 групп друзей и подписчиков
-    groups_followers_sorted = list(reversed(sorted(groups_followers_friends, key=lambda g: g['count'])))  # сортировка по количеству людей в группе
+    groups_followers_sorted = list(reversed(sorted(groups_followers_friends.values(), key=lambda g: g['count'])))  # сортировка по количеству людей в группе
     with open('top100.json', 'w', encoding="utf-8") as json_file:
         json.dump(groups_followers_sorted[:100], json_file, ensure_ascii=False)
     report = "Сохранили список 100 групп в которых состоят подписчики нашего пользователя в файл top100.json"
