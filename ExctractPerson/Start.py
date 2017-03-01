@@ -6,9 +6,7 @@ import os
 import time
 import threading
 
-ID_USER_GARIKHARLAMOV = 80491907
 MY_APP_ID = 5786550
-
 
 def clear():
     """
