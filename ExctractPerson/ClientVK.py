@@ -8,8 +8,6 @@ import time
 from datetime import datetime
 import webbrowser
 
-ID_USER_GARIKHARLAMOV = 80491907
-CURRENT_YEAR = datetime.now().year
 
 class UserVK:
     """
@@ -130,7 +128,7 @@ class ClientVK:
                 try:
                     user = requests.get("https://api.vk.com/method/users.get", {"user_id": user_id, "fields": "sex, bdate"})
                     uid = user.json()["response"][0]["uid"]
-                    age = CURRENT_YEAR - datetime.strptime(user.json()["response"][0]["bdate"], "%d.%m.%Y").year
+                    age = datetime.now().year - datetime.strptime(user.json()["response"][0]["bdate"], "%d.%m.%Y").year
                     sex = "Ж" if int(user.json()["response"][0]["sex"]) == 1 else "М"
                     group_members_info.append({"uid": uid,
                                                "sex": sex,
