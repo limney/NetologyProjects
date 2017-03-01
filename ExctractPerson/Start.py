@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     friends = []
     followers = []
-    groups_followers_friends = []
+    groups_followers_friends = {}
 
     threads_friends = threading.Thread(target=vk.get_friends, args=(user_id, friends, groups_followers_friends))
     threads_friends.start()

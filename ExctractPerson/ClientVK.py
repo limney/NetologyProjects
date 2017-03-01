@@ -68,8 +68,8 @@ class ClientVK:
             friends.append(user_id)
             # Добавим новоую группу в общий список
             for new_group in self.get_groups(user_id):
-                if new_group["id"] not in [group["id"] for group in groups_friends]:  # если такой группы нет в списке
-                    groups_friends.append(new_group)
+                if groups_friends.get(new_group["id"]) is None:  # если такой группы нет в словаре
+                    groups_friends[new_group["id"]] = new_group
         return my_friends
 
     def get_followers(self, id_user, followers, groups_followers):
@@ -86,8 +86,8 @@ class ClientVK:
                 my_followers.append(UserVK(follower.json()["response"][0]))
                 # Добавим новоую группу в общий список
                 for new_group in self.get_groups(follower_id):
-                    if new_group["id"] not in [group["id"] for group in groups_followers]:  # если такой группы нет в списке
-                        groups_followers.append(new_group)
+                    if groups_followers.get(new_group["id"]) is None:  # если такой группы нет в словаре
+                        groups_followers[new_group["id"]] = new_group
                 followers.append(follower_id)
             except Exception as e:
                 self.write_to_log("Ошибка! follower_id=" + str(follower_id) + " Текст ошибки: " + str(e))
@@ -139,6 +139,7 @@ class ClientVK:
             return group_members_info
         except Exception as e:
             ClientVK.write_to_log("Ошибка! group_id=" + str(group_id) + " Текст ошибки: " + str(e))
+            return []
 
     @staticmethod
     def write_to_log(line):
