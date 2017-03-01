@@ -149,7 +149,7 @@ class ClientVK:
         :return:
         """
         with open("error.log", "a", encoding="UTF-8") as log:
-            log.write(line + "\n")
+            log.write("Time: {0}, {1}\n".format(datetime.today(), line))
             log.flush()
 
 
